@@ -1,0 +1,7 @@
+# 리눅스 컨테이너/VM에서 그대로 실행되거나 읽히는 파일은 어떤 플랫폼에서 체크아웃해도 LF를
+# 유지한다 — 윈도우에서 커밋한 CRLF가 섞이면 "bad interpreter: ...^M" 같은 실패가 난다.
+*.sh text eol=lf
+Dockerfile text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.conf text eol=lf

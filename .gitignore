@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+*.egg-info/
+build/
+dist/
+.idea/
+
+# 실제 env는 추적하지 않는다 — 템플릿만 둔다.
+.env*
+!.env.example
+
+# 로컬에서 스크립트를 직접 돌려 본 결과 폴더
+/out/
+/result/

@@ -1,0 +1,12 @@
+.git/
+.idea/
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+docs/
+tests/
+deploy/
+.gitlab-ci.yml
+.env*
+!.env.example

@@ -1,0 +1,15 @@
+# VM에서 git pull 뒤 이 파일로 띄운다(docs/deploy-guide.md).
+#   docker compose -f deploy/dev/docker-compose.yml up -d --build
+services:
+  api:
+    build:
+      context: ../..
+      dockerfile: Dockerfile
+    image: timbel-compare-api:local
+    restart: unless-stopped
+    env_file: [.env]
+    ports:
+      # 프록시(nginx 등) 뒤에 둘 거라면 127.0.0.1로 묶는다.
+      - "8080:8080"
+    # 비교는 임시 폴더에 수백 MB를 쓸 수 있다 — /tmp를 메모리 tmpfs로 두지 말 것.
+    tmpfs: []

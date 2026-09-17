@@ -1,0 +1,28 @@
+[project]
+name = "timbel-compare-api"
+version = "1.0.0"
+description = "텍스트 비교(CER) 스크립트를 실행하고 결과를 zip으로 돌려주는 API 서버"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.121",
+    "uvicorn[standard]>=0.41",
+    "python-multipart>=0.0.20",
+    "tqdm>=4.67",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.4", "httpx>=0.28"]
+
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"compare_api.engine" = ["*.py"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

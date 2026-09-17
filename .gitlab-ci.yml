@@ -1,0 +1,36 @@
+# timbel-compare-api CI — 사내 GitLab, docker executor 러너 기준.
+#
+# verify: pytest. 테스트가 실제로 원본 스크립트를 subprocess로 돌려 summary.csv 수치까지
+#         확인하므로(tests/test_compare.py), 이 잡이 초록이면 엔진이 그대로 동작한다는 뜻이다.
+# image : Dockerfile로 이미지를 빌드해 Container Registry에 푸시(kaniko, dind 불필요).
+
+stages: [verify, build]
+
+verify:
+  stage: verify
+  image: python:3.12-slim
+  cache:
+    key: { files: [requirements-dev.txt] }
+    paths: [.pip-cache/]
+  before_script:
+    - pip install --cache-dir .pip-cache -r requirements-dev.txt
+  script:
+    - python -m pytest -q
+
+image:
+  stage: build
+  needs: [verify]
+  image: { name: gcr.io/kaniko-project/executor:v1.23.2-debug, entrypoint: [""] }
+  cache: []
+  script:
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor
+      --context "$CI_PROJECT_DIR"
+      --dockerfile "$CI_PROJECT_DIR/Dockerfile"
+      --destination "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA"
+      --destination "$CI_REGISTRY_IMAGE:latest"
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: manual
+      allow_failure: true
