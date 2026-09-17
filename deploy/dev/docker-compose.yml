@@ -7,7 +7,10 @@ services:
       dockerfile: Dockerfile
     image: timbel-compare-api:local
     restart: unless-stopped
-    env_file: [.env]
+    # .env가 없어도 뜬다 — 기본값만으로 동작하고, 값을 바꿀 때만 .env를 만든다.
+    env_file:
+      - path: .env
+        required: false
     ports:
       # 프록시(nginx 등) 뒤에 둘 거라면 127.0.0.1로 묶는다.
       - "8080:8080"

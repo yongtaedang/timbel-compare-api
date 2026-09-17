@@ -23,8 +23,14 @@ def _int(name: str, default: int) -> int:
     return value if value > 0 else default
 
 
+# env를 주지 않아도 배포된 프론트가 동작하도록 운영 주소를 기본값에 넣어 둔다 — 홈포트는
+# 이미지를 env 없이 띄울 수 있고, 그때 기본값이 localhost뿐이면 브라우저가 프리플라이트에서
+# "Disallowed CORS origin"으로 막힌다. 주소가 바뀌면 CORS_ALLOWED_ORIGINS로 덮어쓴다.
+DEFAULT_ORIGINS = "http://localhost:3000,https://timbel-compare-front.timbel.dev"
+
+
 def _origins() -> list[str]:
-    raw = os.getenv("CORS_ALLOWED_ORIGINS", "http://localhost:3000")
+    raw = os.getenv("CORS_ALLOWED_ORIGINS", DEFAULT_ORIGINS)
     return [origin.strip() for origin in raw.split(",") if origin.strip()]
 
 

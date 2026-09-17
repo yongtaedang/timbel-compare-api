@@ -107,7 +107,7 @@ python -m pytest -q
 | 이름 | 기본값 | 설명 |
 |---|---|---|
 | `API_PREFIX` | `/api/compare/v1` | 라우트 접두사 |
-| `CORS_ALLOWED_ORIGINS` | `http://localhost:3000` | 콤마 구분. **프론트 주소를 반드시 넣을 것** |
+| `CORS_ALLOWED_ORIGINS` | 로컬 3000 + 운영 프론트 | 콤마 구분. 주소가 바뀌면 여기서 덮어쓴다(기본값은 `config.DEFAULT_ORIGINS`) |
 | `MAX_FILES` | `2000` | 참조·인식 각각의 파일 개수 상한 |
 | `MAX_FILE_MB` | `10` | 파일 하나의 크기 상한(스크립트도 10MB를 넘기면 건너뛴다) |
 | `MAX_TOTAL_MB` | `512` | 업로드 전체 크기 상한 |
